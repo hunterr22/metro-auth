@@ -1,4 +1,4 @@
-package com.metro.domain;
+package com.metro.auth.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
