@@ -1,4 +1,4 @@
-package com.metro.domain;
+package com.metro.auth.domain;
 
 public class Token {
 	String token;
