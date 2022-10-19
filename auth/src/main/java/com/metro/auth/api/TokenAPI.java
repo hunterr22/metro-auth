@@ -1,4 +1,4 @@
-package com.metro.api;
+package com.metro.auth.api;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
