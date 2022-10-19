@@ -1,4 +1,4 @@
-package com.metro.domain;
+package com.metro.auth.domain;
 
 import org.json.JSONObject;
 
