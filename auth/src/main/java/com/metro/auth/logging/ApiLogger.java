@@ -1,4 +1,4 @@
-package com.metro.logging;
+package com.metro.auth.logging;
 
 public class ApiLogger {
 	private static String module = "na";
