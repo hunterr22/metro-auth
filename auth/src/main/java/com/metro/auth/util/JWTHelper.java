@@ -1,4 +1,4 @@
-package com.metro.util;
+package com.metro.auth.util;
 
 import java.util.Date;
 import java.util.Map;
