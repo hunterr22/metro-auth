@@ -42,11 +42,10 @@ public class TokenAPI {
 		if (username != null && username.length() > 0 && password != null && password.length() > 0
 				&& checkPassword(username, password)) {
 			Token token = createToken(username);
-			ResponseEntity<?> response = ResponseEntity.ok(token);
-			return response;
+			return ResponseEntity.ok(token);
 		}
 		// bad request
-		return (ResponseEntity<?>) ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
 	}
 
@@ -85,10 +84,10 @@ public class TokenAPI {
 	}
 
 	private static Token createToken(String username) {
-		String scopes = "com.webage.data.apis";
+		String scopes = "com.metro.data.apis";
 		// special case for application user
 		if (username.equalsIgnoreCase("ApiClientApp")) {
-			scopes = "com.webage.auth.apis";
+			scopes = "com.metro.auth.apis";
 		}
 		String token_string = JWTHelper.createToken(scopes);
 
@@ -107,7 +106,7 @@ public class TokenAPI {
 	private Customer getCustomerByNameFromCustomerAPI(String username) {
 		try {
 
-			URL url = new URL("http://localhost:8080/api/customers/byname/" + username);
+			URL url = new URL("http://localhost:8080/api/customers/byName/" + username);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Accept", "application/json");
