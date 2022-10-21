@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.metro'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+sourceCompatibility = '11'
 
 repositories {
 	mavenCentral()
@@ -20,6 +20,7 @@ dependencies {
 	testImplementation  'org.springframework.boot:spring-boot-starter-test'
 	implementation 		'com.auth0:java-jwt:3.14.0'
 	implementation		'org.json:json:20180813'
+
 }
 
 tasks.named('test') {
