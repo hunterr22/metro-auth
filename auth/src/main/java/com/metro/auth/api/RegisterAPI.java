@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.webage.domain.Customer;
-import com.webage.domain.CustomerFactory;
-import com.webage.domain.Token;
+import com.metro.auth.domain.Customer;
+import com.metro.auth.domain.CustomerFactory;
+import com.metro.auth.domain.Token;
 
 @RestController
 @RequestMapping("/register")
@@ -31,14 +31,14 @@ public class RegisterAPI {
 			// Reject we'll assign the customer id
 			return ResponseEntity.badRequest().build();
 		}
-		
+
 		String json_string = CustomerFactory.getCustomerAsJSONString(newCustomer);
-		
+
 		postNewCustomerToCustomerAPI(json_string);
-		
+
 		// old code that calls repository directly
 		// newCustomer = repo.save(newCustomer);
-		
+
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(newCustomer.getId()).toUri();
 		ResponseEntity<?> response = ResponseEntity.created(location).build();
@@ -48,14 +48,14 @@ public class RegisterAPI {
 	private void postNewCustomerToCustomerAPI(String json_string) {
 		try {
 
-			URL url = new URL("http://localhost:8080/api/customers");
+			URL url = new URL("http://localhost:8080/api/customers/");
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setDoOutput(true);
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Content-Type", "application/json");
-	  		Token token = TokenAPI.getAppUserToken();
-	  		conn.setRequestProperty("authorization", "Bearer " + token.getToken());
-	  		// conn.setRequestProperty("tokencheck", "false");
+			Token token = TokenAPI.getAppUserToken();
+			conn.setRequestProperty("authorization", "Bearer " + token.getToken());
+			// conn.setRequestProperty("tokencheck", "false");
 
 			OutputStream os = conn.getOutputStream();
 			os.write(json_string.getBytes());
@@ -88,6 +88,3 @@ public class RegisterAPI {
 	}
 
 }
-Footer
-© 2022 GitHub, Inc.
-Footer navigation
