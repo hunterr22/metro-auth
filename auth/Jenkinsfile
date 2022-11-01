@@ -12,7 +12,7 @@ node {
     }
 
     stage('Containerize the app-docker build - AuthService') {
-        sh 'docker build --file auth/Dockerfile --rm -t event-auth:v1.0'
+        sh 'docker build --rm -t event-auth:v1.0 ./auth'
     }
 
     stage('Inspect the docker image - AuthService') {
