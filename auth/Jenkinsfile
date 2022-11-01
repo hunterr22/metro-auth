@@ -11,6 +11,19 @@ node {
         sh './auth/gradlew bootjar -p ./auth -Dorg.gradle.java.home=//usr/lib/jvm/java-11-openjdk-amd64'
     }
 
+    stage('Containerize the app-docker build - AuthService') {
+        sh 'docker build --file auth/Dockerfile --rm -t event-auth:v1.0'
+    }
+
+    stage('Inspect the docker image - AuthService') {
+        sh 'docker images event-auth:v1.0'
+        sh 'docker inspect event-auth:v1.0'
+    }
+
+    stage('Run Docker container instance - AuthService') {
+        sh 'docker run -d --rm --name event-auth -p 8081:8081 -w auth/ event-auth:v1.0'
+    }
+
     stage('User Acceptance Test - AuthService') {
     
         def response= input message: 'Is this build good to go?',
@@ -18,10 +31,18 @@ node {
             description: '', name: 'Pass')]
         
         if(response=="Yes") {
-            stage('Release - AuthService') {
-            sh './auth/gradlew build -x test -p ./auth -Dorg.gradle.java.home=//usr/lib/jvm/java-11-openjdk-amd64'
-            sh 'echo AuthService is ready to release'
+            stage('Deploy to Kubernetes cluster - AuthService') {
+                sh 'kubectl create deployment event-auth --image=event-auth:v1.0'
+                // get the value of API_HOST from kubernetes services and set the env variable
+                sh 'set env deployment/event-auth API_HOST=\$(kubectl get service/event-data -o jsonpath="{.spec.clusterIP}"):8080'
+                sh 'kubectl expose deployment event-auth --type=LoadBalancer --port=8081'
             }
         }
+    }
+
+    stage('Production Deployment View') {
+        sh 'kubectl get deployments'
+        sh 'kubectl get pods'
+        sh 'kubectl get services'
     }
 }
