@@ -8,6 +8,6 @@ EXPOSE 8081
 VOLUME /tmp
 ARG targethost=localhost:8080
 ENV API_HOST=$targethost
-ARG LIBS=app/auth/build/libs
+ARG LIBS=app/build/libs
 COPY --from=builder ${LIBS}/ /app/lib
 ENTRYPOINT ["java","-jar","./app/lib/auth-0.0.1-SNAPSHOT.jar"]
